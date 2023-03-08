@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\BasketController;
+use App\Http\Controllers\FrontController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +18,8 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('front');
 // });
-Route::get('/', [ProductController::class, 'index']);
+Route::get('/', [FrontController::class, 'index']);
+Route::resource('/basket', BasketController::class);
 
 Auth::routes();
 

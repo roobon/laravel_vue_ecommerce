@@ -12,10 +12,10 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
     public function index()
     {
-        $products = Product::get();
-        return view('front', compact('products'));
     }
 
     /**

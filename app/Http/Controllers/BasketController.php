@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Basket;
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 class BasketController extends Controller
 {
@@ -12,6 +13,11 @@ class BasketController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         //
@@ -35,7 +41,18 @@ class BasketController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $pid = $request->prid;
+        $uid = auth()->user()->id;
+        $product = Product::find($pid);
+
+        Basket::create([
+            'product_id' => $pid,
+            'qty' => 1,
+            'price' => $product->sales_price,
+            'user_id' => $uid
+        ]);
+
+        return "Success";
     }
 
     /**
