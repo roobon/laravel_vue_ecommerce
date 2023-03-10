@@ -22969,7 +22969,9 @@ __webpack_require__.r(__webpack_exports__);
     product_id: ''
   },
   data: function data() {
-    return {};
+    return {
+      basket_count: 0
+    };
   },
   methods: {
     AddProductToBasket: function AddProductToBasket() {

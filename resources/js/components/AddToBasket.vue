@@ -10,7 +10,7 @@ import { assertExpressionStatement } from '@babel/types';
         },
         data() {
             return {
-
+                basket_count:0,
             }
         },
         methods: {

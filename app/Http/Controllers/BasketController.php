@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Basket;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\User;
 
 class BasketController extends Controller
 {
@@ -20,7 +21,8 @@ class BasketController extends Controller
 
     public function index()
     {
-        //
+        $basket = Basket::all();
+        return view('frontend.basket', compact('basket'));
     }
 
     /**
@@ -44,15 +46,21 @@ class BasketController extends Controller
         $pid = $request->prid;
         $uid = auth()->user()->id;
         $product = Product::find($pid);
-
-        Basket::create([
-            'product_id' => $pid,
-            'qty' => 1,
-            'price' => $product->sales_price,
-            'user_id' => $uid
-        ]);
-
-        return "Success";
+        $basket = Basket::where('product_id', $pid)->where('user_id', $uid)->first();
+        if (!$basket) {
+            Basket::create([
+                'product_id' => $pid,
+                'qty' => 1,
+                'price' => $product->sales_price,
+                'user_id' => $uid
+            ]);
+        } else {
+            $basket->qty += 1;
+            $basket->price += $product->sales_price;
+            $basket->save();
+        }
+        $basket_count = Basket::where('user_id', $uid)->sum('qty');
+        return response()->json(['basket_count' => $basket_count]);
     }
 
     /**
